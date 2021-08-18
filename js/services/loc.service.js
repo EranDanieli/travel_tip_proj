@@ -5,7 +5,7 @@ export const locService = {
     getUserLoc,
     setUserLoc
 }
-import { storageService } from './services/storage_service'
+import { storageService } from './storage.service.js'
 
 const gLocs = storageService.load('locsDB') || [];
 const gUserLoc = storageService.load('userLocDB') || {}

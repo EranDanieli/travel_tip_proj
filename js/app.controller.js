@@ -19,12 +19,15 @@ function onInit() {
 function getPosition() {
     console.log('Getting Pos');
     return new Promise((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject)
-    })
+            navigator.geolocation.getCurrentPosition(resolve, reject)
+
+        })
+        .then(res => { console.log('res', res) })
 }
 
 function onAddMarker() {
     console.log('Adding a marker');
+    //TODO: make responsive
     mapService.addMarker({ lat: 32.0749831, lng: 34.9120554 });
     // locService.addLoc(loc)
 }
