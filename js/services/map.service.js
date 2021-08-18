@@ -37,15 +37,17 @@ function extraSteps(map, myLatlng) {
     // Configure the click listener.
     map.addListener("click", (mapsMouseEvent) => {
         // Close the current InfoWindow.
+        console.log('mapsMouseEvent', mapsMouseEvent)
         console.log('mapsMouseEvent', mapsMouseEvent.latLng.lat())
         console.log('mapsMouseEvent', mapsMouseEvent.latLng.lng())
+        locService.addLoc(mapsMouseEvent.latLng.lat(), mapsMouseEvent.latLng.lng())
         infoWindow.close();
         // Create a new InfoWindow.
         infoWindow = new google.maps.InfoWindow({
             position: mapsMouseEvent.latLng,
         });
         infoWindow.setContent(
-            `you clicked here: ${ JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2) } `
+            `Added To Your Locations: ${ JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2) } `
 
         );
         infoWindow.open(map);

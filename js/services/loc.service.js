@@ -6,7 +6,7 @@ export const locService = {
     setUserLoc
 }
 import { storageService } from './storage.service.js'
-
+let gIdx = storageService.load('gIdxDB') + 1 || 0;
 let gLocs = storageService.load('locsDB') || [];
 let gUserLoc = storageService.load('userLocDB') || {}
     // const locs = [
@@ -22,18 +22,21 @@ function getLocs() {
         }, 2000)
     });
 }
-// connect to add marker on location.
-function addLoc(info) {
-    gLocs.push({ name: info.name, lat: info.lat, lng: info.lng, createdAt: Date.now() })
-    storageService.save('locsDB', gLocs)
 
+function addLoc(lat, lng) {
+    gLocs.push({ name: gIdx, lat, lng, createdAt: Date.now() })
+    storageService.save('locsDB', gLocs)
+    storageService.save('gIdxDB', gIdx)
+    gIdx++
 }
-// connect to delete button in table.
+// connect to delete button in table.  // NEEDS CHECKING
 function removeLoc(locName) {
     gLocs.find((loc, idx) => {
         if (loc.name === locName) gLocs.splice(idx, 1)
         storageService.save('locsDB', gLocs)
     })
+    gIdx--
+    storageService.save('gIdxDB', gIdx)
 }
 // connect to getUserPos
 function setUserLoc(loc) {
