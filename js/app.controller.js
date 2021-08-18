@@ -30,21 +30,24 @@ function onAddMarker() {
 }
 
 function onGetLocs() {
-    let elLocs = document.querySelector('.location-table');
+    let elLocs = document.querySelector('.location-table-body');
     locService.getLocs()
         .then(locs => {
+           
             const strHTML = locs.map((loc) => {
                 return `
                 <tr>
                 <td>1${loc.name}</td>
+                <button> Move </button>
                 <td>1${loc.lat}</td>
+                <button> Move </button>
                 <td>1${loc.lng}</td>
                 </tr>
                 `
             }).join('')
             console.log('Locations:', locs)
             elLocs.innerHTML = strHTML;
-            document.querySelector('.location-table').innerText = JSON.stringify(locs)
+            document.querySelector('location-table-body').innerText = JSON.stringify(locs)
         })
 }
 
