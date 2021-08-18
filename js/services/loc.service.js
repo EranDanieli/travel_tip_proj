@@ -5,15 +5,14 @@ export const locService = {
     getUserLoc,
     setUserLoc
 }
+import { storageService } from './storage.service.js'
 
-import { storageService } from './storage_service.js'
-
-const gLocs = storageService.load('locsDB') || [];
-const gUserLoc = storageService.load('userLocDB') || {}
-// const locs = [
-//     { name: 'Greatplace', lat: 32.047104, lng: 34.832384 },
-//     { name: 'Neveragain', lat: 32.047201, lng: 34.832581 }
-// ]
+let gLocs = storageService.load('locsDB') || [];
+let gUserLoc = storageService.load('userLocDB') || {}
+    // const locs = [
+    //     { name: 'Greatplace', lat: 32.047104, lng: 34.832384 },
+    //     { name: 'Neveragain', lat: 32.047201, lng: 34.832581 }
+    // ]
 
 function getLocs() {
     if (!gLocs) return
@@ -38,7 +37,10 @@ function removeLoc(locName) {
 }
 // connect to getUserPos
 function setUserLoc(loc) {
-    gUserLoc = loc;
+    gUserLoc = {
+        lat: loc.coords.latitude,
+        lng: loc.coords.longitude
+    }
     storageService.save('userLocDB', gUserLoc)
 }
 
