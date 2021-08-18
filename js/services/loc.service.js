@@ -3,16 +3,14 @@ export const locService = {
     addLoc,
     removeLoc,
     getUserLoc,
-    setUserLoc
+    setUserLoc,
+    getGLocs,
 }
 import { storageService } from './storage.service.js'
 let gIdx = storageService.load('gIdxDB') + 1 || 0;
 let gLocs = storageService.load('locsDB') || [];
 let gUserLoc = storageService.load('userLocDB') || {}
-    // const locs = [
-    //     { name: 'Greatplace', lat: 32.047104, lng: 34.832384 },
-    //     { name: 'Neveragain', lat: 32.047201, lng: 34.832581 }
-    // ]
+
 
 function getLocs() {
     if (!gLocs) return
@@ -24,7 +22,7 @@ function getLocs() {
 }
 
 function addLoc(lat, lng) {
-    gLocs.push({ name: gIdx, lat, lng, createdAt: Date.now() })
+    gLocs.push({ name: gIdx, lat, lng, createdAt: new Date() })
     storageService.save('locsDB', gLocs)
     storageService.save('gIdxDB', gIdx)
     gIdx++
@@ -49,4 +47,8 @@ function setUserLoc(loc) {
 
 function getUserLoc() {
     return gUserLoc;
+}
+
+function getGLocs() {
+    return gLocs;
 }

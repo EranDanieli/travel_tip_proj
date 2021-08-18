@@ -47,7 +47,8 @@ function extraSteps(map, myLatlng) {
             position: mapsMouseEvent.latLng,
         });
         infoWindow.setContent(
-            `Added To Your Locations: ${ JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2) } `
+            `Added To Your Locations! click marker to mark`
+            // ${ JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2) } 
 
         );
         infoWindow.open(map);

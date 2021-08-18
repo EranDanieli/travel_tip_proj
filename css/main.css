@@ -1,19 +1,20 @@
 * {
     box-sizing: border-box;
 }
+
 table {
-    
-    width: 40%;
+    width: 50%;
     height: 30vh;
 }
-.location-table {
 
+.location-table {
     border-bottom: 1px solid;
     padding: 15px;
     text-align: left;
-
 }
-tr , td{
+
+tr,
+td {
     border: 1px solid #999;
     padding: 0.5rem;
 }

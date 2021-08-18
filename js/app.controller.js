@@ -7,6 +7,7 @@ window.onAddMarker = onAddMarker;
 window.onPanTo = onPanTo;
 window.onGetLocs = onGetLocs;
 window.onGetUserPos = onGetUserPos;
+window.onRemoveLoc = onRemoveLoc;
 
 function onInit() {
     mapService.initMap()
@@ -27,30 +28,30 @@ function getPosition() {
 
 function onAddMarker() {
     console.log('Adding a marker');
-    //TODO: make responsive
-    mapService.addMarker({ lat: 32.0749831, lng: 34.9120554 });
-    // locService.addLoc(loc)
+    let lastLoc = locService.getGLocs()[locService.getGLocs().length - 1]
+    console.log('lastLoc', lastLoc)
+    mapService.addMarker({ lat: lastLoc.lat, lng: lastLoc.lng });
 }
 
 function onGetLocs() {
     let elLocs = document.querySelector('.location-table-body');
     locService.getLocs()
         .then(locs => {
-
             const strHTML = locs.map((loc) => {
                 return `
                 <tr>
-                <td>1${loc.name}</td>
-                <button> Move </button>
-                <td>1${loc.lat}</td>
-                <button> Move </button>
-                <td>1${loc.lng}</td>
+                <td>Id:${loc.name}</td>
+                <td>Lat:${loc.lat}</td>
+                <td>Lng:${loc.lng}</td>
+                <td>Created:${loc.createdAt}</td>
+                <button> Go </button>
+                <button onclick="onRemove(${loc.name})"> Delete </button>
                 </tr>
                 `
             }).join('')
             console.log('Locations:', locs)
             elLocs.innerHTML = strHTML;
-            document.querySelector('location-table-body').innerText = JSON.stringify(locs)
+            // document.querySelector('location-table-body').innerText = JSON.stringify(locs)
         })
 }
 
@@ -70,4 +71,10 @@ function onGetUserPos() {
 function onPanTo() {
     console.log('Panning the Map');
     mapService.panTo(35.6895, 139.6917);
+}
+
+function onRemoveLoc(locName) {
+    console.log('locName', locName)
+        // removeLoc(locName)  why not defined god fucking damnit
+
 }
