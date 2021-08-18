@@ -36,7 +36,7 @@ function onGetLocs() {
     let elLocs = document.querySelector('.location-table-body');
     locService.getLocs()
         .then(locs => {
-           
+
             const strHTML = locs.map((loc) => {
                 return `
                 <tr>

@@ -3,22 +3,55 @@ export const mapService = {
     addMarker,
     panTo
 }
+import { locService } from './loc.service.js'
 
 var gMap;
 
-function initMap(lat = 32.0749831, lng = 34.9120554 /* load gUserLoc as default?*/ ) {
+function initMap(lat = 32.170432, lng = 34.8426476) {
+    if (locService.getUserLoc().length) {
+        lat = locService.getUserLoc().lat;
+        lng = locService.getUserLoc().lng;
+    }
+    const myLatlng = { lat, lng };
     console.log('InitMap');
     return _connectGoogleApi()
         .then(() => {
             console.log('google available');
             gMap = new google.maps.Map(
                 document.querySelector('#map'), {
-                    center: { lat, lng },
+                    center: myLatlng,
                     zoom: 15
                 })
             console.log('Map!', gMap);
+            extraSteps(gMap, myLatlng);
         })
 }
+
+function extraSteps(map, myLatlng) {
+    // Create the initial InfoWindow.
+    let infoWindow = new google.maps.InfoWindow({
+        content: "Click the map to get Lat/Lng!",
+        position: myLatlng,
+    });
+    infoWindow.open(map);
+    // Configure the click listener.
+    map.addListener("click", (mapsMouseEvent) => {
+        // Close the current InfoWindow.
+        console.log('mapsMouseEvent', mapsMouseEvent.latLng.lat())
+        console.log('mapsMouseEvent', mapsMouseEvent.latLng.lng())
+        infoWindow.close();
+        // Create a new InfoWindow.
+        infoWindow = new google.maps.InfoWindow({
+            position: mapsMouseEvent.latLng,
+        });
+        infoWindow.setContent(
+            `you clicked here: ${ JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2) } `
+
+        );
+        infoWindow.open(map);
+    });
+}
+
 
 function addMarker(loc) {
     var marker = new google.maps.Marker({
